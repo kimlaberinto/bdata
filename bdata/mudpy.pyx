@@ -30,6 +30,7 @@ Function list:
         get_das
         get_experimenter
         
+        get_field (Note: Not in I-MuSR)
         get_temperature (Note: Not in I-MuSR)
     
     COMMENTS
@@ -122,6 +123,7 @@ cdef extern from "../mud_src/mud_friendly.c":
     int MUD_getDas(int fh, char* string, int strdim)
     int MUD_getExperimenter(int fh, char* string, int strdim)
 
+    int MUD_getField(int fh, char* string, int strdim)
     int MUD_getTemperature(int fh, char* string, int strdim)
 
 
@@ -219,6 +221,16 @@ def get_experimenter(file_handle):
     """Returns python string. Max number of characters: 256. """
     cdef char title[256]
     MUD_getExperimenter(file_handle,title,256)
+    return <object>(title.decode('cp1252'))
+
+def get_field(file_handle):
+    """Returns python string of field from a run.
+    
+    Note: Not available in I-MuSR.
+    Max number of characters: 256
+    """
+    cdef char title[256]
+    MUD_getField(file_handle,title,256)
     return <object>(title.decode('cp1252'))
 
 def get_temperature(file_handle):
